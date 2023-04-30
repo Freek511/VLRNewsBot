@@ -1,3 +1,6 @@
+import requests
+
+
 class Info:
     def __init__(self, agent_name, map_name, side_name, vid_ref):
         self.agent_name = agent_name
@@ -29,5 +32,29 @@ class Info:
     def set_side(self, side):
         self.side_name = side
 
-# class SearchInfo:
-#     def __init__(self):
+
+class ValorantInfo:
+
+    def __init__(self):
+        self._maps = None
+        self._heroes = None
+        self._sides = ['Атака', 'Защита', 'Обе']
+
+    def maps(self):
+        if self._maps is None:
+            page = requests.get("https://playvalorant.com/page-data/ru-ru/maps/page-data.json")
+            content = page.json()
+            self._maps = [game_map['title'] for game_map
+                          in content['result']['data']['allContentstackMaps']['nodes'][0]['related_content']]
+        return self._maps
+
+    def heroes(self):
+        if self._heroes is None:
+            page = requests.get("https://playvalorant.com/page-data/ru-ru/agents/page-data.json")
+            content = page.json()
+            self._heroes = [agent['related_content'][0]['title'] for agent
+                          in content['result']['data']['allContentstackAgentList']['nodes'][0]['agent_list']]
+        return self._heroes
+
+    def sides(self):
+        return self._sides
