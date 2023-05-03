@@ -1,8 +1,11 @@
 import telebot
+import os
+from dotenv import load_dotenv
 from telebot import types
 from parcer import ValorantInfo
 
-API_TOKEN = '5885213211:AAFaccPlQX4ruVPj-w67qORirs49Myn7DNo'
+load_dotenv()
+API_TOKEN = os.getenv("TOKEN")  # '5885213211:AAFaccPlQX4ruVPj-w67qORirs49Myn7DNo'
 bot = telebot.TeleBot(API_TOKEN)
 valorant_info = ValorantInfo()
 
